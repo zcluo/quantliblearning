@@ -1,0 +1,2 @@
+QuantLib==1.37
+pytest==8.3.5

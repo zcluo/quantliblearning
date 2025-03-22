@@ -1,0 +1,6 @@
+setup.py
+quantliblearning.egg-info/PKG-INFO
+quantliblearning.egg-info/SOURCES.txt
+quantliblearning.egg-info/dependency_links.txt
+quantliblearning.egg-info/top_level.txt
+tests/test_calculator.py
