@@ -1,4 +1,6 @@
 import QuantLib as ql
+#import matplotlib
+#matplotlib.use('Agg')  # 必须在导入 pyplot 之前设置
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -45,7 +47,8 @@ for price in spot_prices:
 u.setValue(original_value)  # 恢复原始值
 
 # 配置可视化
-plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']  # 根据系统实际字体选择
+# plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']  # 根据系统实际字体选择
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Micro Hei']
 plt.rcParams['axes.unicode_minus'] = False
 plt.figure(figsize=(10, 6))
 plt.plot(spot_prices, npvs, 'b-', linewidth=2)
