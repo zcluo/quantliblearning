@@ -48,4 +48,19 @@ print(curve)
 sample_times = np.linspace(0.0, 30.0, 301)
 sample_discounts = [curve.discount(t) for t in sample_times]
 print(sample_discounts)
+
+# 配置可视化
+# plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']  # 根据系统实际字体选择
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Micro Hei']
+plt.rcParams['axes.unicode_minus'] = False
+plt.figure(figsize=(10, 6))
+plt.plot(sample_times, sample_discounts, 'b-', linewidth=2)
+plt.title('债券折现曲线', fontsize=14)
+plt.xlabel('时间', fontsize=12)
+plt.ylabel('折现因子', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.legend()
+plt.savefig('option_price_curve.png', dpi=300, bbox_inches='tight')
+plt.show()
     
