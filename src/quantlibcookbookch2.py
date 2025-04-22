@@ -1,6 +1,6 @@
 import QuantLib as ql
-#import matplotlib
-#matplotlib.use('Agg')  # 必须在导入 pyplot 之前设置
+# import matplotlib
+# matplotlib.use('Agg')  # 必须在导入 pyplot 之前设置
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -8,32 +8,36 @@ import platform
 from IPython.display import display
 
 
-
 today = ql.Date(7, ql.March, 2014)
 
-ql.Settings.instance().evaluationDate = today # 设置当前日期
-print(ql.Settings.instance().evaluationDate) # 输出当前日期
-option = ql.EuropeanOption(ql.PlainVanillaPayoff(ql.Option.Call, 100.0), ql.EuropeanExercise(ql.Date(7, ql.June, 2014))) # 创建欧式看涨期权
+ql.Settings.instance().evaluationDate = today  # 设置当前日期
+print(ql.Settings.instance().evaluationDate)  # 输出当前日期
+option = ql.EuropeanOption(ql.PlainVanillaPayoff(
+    # 创建欧式看涨期权
+    ql.Option.Call, 100.0), ql.EuropeanExercise(ql.Date(7, ql.June, 2014)))
 
-u = ql.SimpleQuote(100.0) # 标的资产价格
+u = ql.SimpleQuote(100.0)  # 标的资产价格
 r = ql.SimpleQuote(0.01)    # 无风险利率
-sigma = ql.SimpleQuote(0.20) # 波动率
+sigma = ql.SimpleQuote(0.20)  # 波动率
 
-riskFreeCurve = ql.FlatForward(0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())  # 无风险利率曲线
-volatility = ql.BlackConstantVol(0, ql.TARGET(), ql.QuoteHandle(sigma), ql.Actual360())  # 波动率曲线
+riskFreeCurve = ql.FlatForward(
+    0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())  # 无风险利率曲线
+volatility = ql.BlackConstantVol(
+    0, ql.TARGET(), ql.QuoteHandle(sigma), ql.Actual360())  # 波动率曲线
 
-process = ql.BlackScholesProcess(ql.QuoteHandle(u), ql.YieldTermStructureHandle(riskFreeCurve), ql.BlackVolTermStructureHandle(volatility))  # Black-Scholes过程
+process = ql.BlackScholesProcess(ql.QuoteHandle(u), ql.YieldTermStructureHandle(
+    # Black-Scholes过程
+    riskFreeCurve), ql.BlackVolTermStructureHandle(volatility))
 
-engine = ql.AnalyticEuropeanEngine(process) # 欧式期权定价引擎
-option.setPricingEngine(engine) # 设置定价引擎
-print(option.NPV()) # 输出期权价格
-print(option.delta()) # 输出期权的Delta值
-print(option.gamma()) # 输出期权的Gamma值
+engine = ql.AnalyticEuropeanEngine(process)  # 欧式期权定价引擎
+option.setPricingEngine(engine)  # 设置定价引擎
+print(option.NPV())  # 输出期权价格
+print(option.delta())  # 输出期权的Delta值
+print(option.gamma())  # 输出期权的Gamma值
 print(option.vega())    # 输出期权的Vega值
 print(option.rho())   # 输出期权的Rho值
-print(option.theta()) # 输出期权的Theta值
-print(option.dividendRho()) # 输出期权的分红Rho值
-
+print(option.theta())  # 输出期权的Theta值
+print(option.dividendRho())  # 输出期权的分红Rho值
 
 
 # 生成标的资产价格区间
@@ -87,7 +91,8 @@ print(option.NPV())
 model = ql.HestonModel(
     ql.HestonProcess(
         ql.YieldTermStructureHandle(riskFreeCurve),
-        ql.YieldTermStructureHandle(ql.FlatForward(0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
+        ql.YieldTermStructureHandle(ql.FlatForward(
+            0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
         ql.QuoteHandle(u),
         0.04,
         0.1,
@@ -113,7 +118,8 @@ print(option.NPV())
 engine = ql.MCEuropeanHestonEngine(
     ql.HestonProcess(
         ql.YieldTermStructureHandle(riskFreeCurve),
-        ql.YieldTermStructureHandle(ql.FlatForward(0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
+        ql.YieldTermStructureHandle(ql.FlatForward(
+            0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
         ql.QuoteHandle(u),
         0.04,
         0.1,
@@ -130,7 +136,8 @@ print(option.NPV())
 engine = ql.MCEuropeanGJRGARCHEngine(
     ql.GJRGARCHProcess(
         ql.YieldTermStructureHandle(riskFreeCurve),
-        ql.YieldTermStructureHandle(ql.FlatForward(0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
+        ql.YieldTermStructureHandle(ql.FlatForward(
+            0, ql.TARGET(), ql.QuoteHandle(r), ql.Actual360())),
         ql.QuoteHandle(u),
         0.04,
         0.1,
@@ -145,8 +152,3 @@ engine = ql.MCEuropeanGJRGARCHEngine(
     requiredSamples=2500000)
 option.setPricingEngine(engine)
 print(option.NPV())
-
-
-
-
-
