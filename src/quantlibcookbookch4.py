@@ -2,7 +2,6 @@ import QuantLib as ql
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from IPython.display import display
 
 
 today = ql.Date(17, ql.October, 2016)
@@ -65,3 +64,23 @@ plt.grid(True, linestyle='--', alpha=0.7)
 plt.legend()
 plt.savefig('option_price_curve.png', dpi=300, bbox_inches='tight')
 plt.show()
+
+schedule = ql.Schedule(today, calendar.advance(today, 15, ql.Years),
+                       ql.Period(ql.Semiannual), calendar,
+                       ql.ModifiedFollowing, ql.ModifiedFollowing,
+                       ql.DateGeneration.Backward, False)
+bond = ql.FixedRateBond(3, 100.0, schedule, [0.04], ql.Actual360())
+bond.setPricingEngine(
+    ql.DiscountingBondEngine(ql.YieldTermStructureHandle(curve)))
+print(bond.cleanPrice())
+
+prices = []
+def print_price():
+    p = bond.cleanPrice()
+    prices.append(p)
+    print(p)
+
+o = ql.Observer(print_price)
+o.registerWith(bond)
+
+quotes[2].setValue(101.0)
